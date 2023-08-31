@@ -47,20 +47,33 @@ export class HomeComponent implements OnInit {
         name: '',
         weight: null,
         symbol: ''
-      } : element
+      } : {
+        position: element.position,
+        name: element.name,
+        weight: element.weight,
+        symbol: element.symbol
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
      if(result !== undefined){
-      this.dataSource.push(result);
-      this.table.renderRows();
+      if(this.dataSource.map(p=> p.position).includes(result.position)){
+        this.dataSource[result.position -1] = result;
+        this.table.renderRows();
+      }else {
+        this.dataSource.push(result);
+        this.table.renderRows();
+      }
      }
     });
   }
 
+  editElement(element: PeriodicElement): void{
+    this.openDialog(element);
+  }
+
   deleteElement(position: number): void{
     this.dataSource = this.dataSource.filter(p=> p.position !== position);
-
   }
 }
 
