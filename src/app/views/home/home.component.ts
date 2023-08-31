@@ -57,6 +57,11 @@ export class HomeComponent implements OnInit {
      }
     });
   }
+
+  deleteElement(position: number): void{
+    this.dataSource = this.dataSource.filter(p=> p.position !== position);
+
+  }
 }
 
 
